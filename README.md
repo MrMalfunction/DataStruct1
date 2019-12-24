@@ -1,1 +1,2 @@
-# DataStruct1
+# Data Structure Learning
+# Part 1
