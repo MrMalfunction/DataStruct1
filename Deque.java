@@ -136,9 +136,9 @@ import java.io.*;
     public Iterator<Item> iterator() { return new DequeIterator(); }
 
     // unit testing (required)
-    public static void main(String[] args) throws IOException {
+    /*public static void main(String[] args) throws IOException {
         Deque<String> queue = new Deque<String>();
-        /*queue.addFirst("a");
+        queue.addFirst("a");
         queue.addFirst("m");
         queue.addFirst("o");
         queue.addFirst("l");
@@ -150,7 +150,7 @@ import java.io.*;
         queue.addLast("A");
         System.out.println(queue.removeFirst());
         System.out.println(queue.removeFirst());
-        System.out.println(queue.removeLast());*/
+        System.out.println(queue.removeLast());
         FileReader fr = new FileReader("D://randomtext_gibberish_p.txt");
         int i;
         while ((i=fr.read()) != -1)
@@ -158,6 +158,6 @@ import java.io.*;
         for(i=0;i<=1000000;i++)
             System.out.print(queue.removeLast());
         queue.iterator();
-    }
+    }*/
 
 }

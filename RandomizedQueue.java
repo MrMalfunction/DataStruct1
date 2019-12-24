@@ -97,6 +97,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Iterator<Item> iterator(){return new RandomizedQueueIterator();}
 
     // unit testing (required)
-    public static void main(String[] args){}
+    //public static void main(String[] args){}
 
 }
