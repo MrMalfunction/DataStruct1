@@ -1,6 +1,8 @@
  import java.util.Iterator;
 import java.io.*;
-public class Deque<Item> implements Iterable<Item> {
+ import java.util.NoSuchElementException;
+
+ public class Deque<Item> implements Iterable<Item> {
     private Node head = null;
     private Node end = null;
     private int n;
@@ -50,6 +52,8 @@ public class Deque<Item> implements Iterable<Item> {
 
     // add the item to the back
     public void addLast(Item item){
+        if (item == null || item == "")
+            throw new IllegalArgumentException();
         Node add = new Node();
         add.item = item;
         if (isEmpty()){
@@ -80,7 +84,7 @@ public class Deque<Item> implements Iterable<Item> {
             head.item = null;
         }
         else if(n==0){
-            throw new IllegalArgumentException();
+            throw new NoSuchElementException();
         }
 
         n--;
@@ -100,7 +104,7 @@ public class Deque<Item> implements Iterable<Item> {
             end.item = null;
         }
         else if(n==0){
-            throw new IllegalArgumentException();
+            throw new NoSuchElementException();
         }
 
         n--;
@@ -111,11 +115,17 @@ public class Deque<Item> implements Iterable<Item> {
     {
         private Node current = head;
 
-        public boolean hasNext() { return current != null; }
-        public void remove() { throw new java.lang.UnsupportedOperationException(); }
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        public void remove() {
+            throw new java.lang.UnsupportedOperationException();
+        }
         public Item next()
         {
-            if (!hasNext()) throw new java.util.NoSuchElementException();
+            if (!hasNext())
+                throw new java.util.NoSuchElementException();
             Item item = current.item;
             current = current.next;
             return item;

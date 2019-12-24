@@ -14,6 +14,34 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         size = 0;
         s = (Item[]) new Object[1];
     }
+
+    // add the item
+    public void enqueue(Item item) {
+        if (item == null)
+            throw new IllegalArgumentException();
+        s[size++] = item;
+        if (size == s.length)
+            resize(2 * s.length);
+    }
+
+    // is the randomized queue empty?
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    private void resize(int capacity) {
+        Item[] copy = (Item[]) new Object[capacity];
+        for (int i = 0; i < size; i++) {
+            copy[i] = s[i];
+            s[i] = copy[i];
+        }
+    }
+
+    // return the number of items on the randomized queue
+    public int size() {
+        return size;
+    }
+
     private class RandomizedQueueIterator implements Iterator<Item>
     {
         private int i = size;
@@ -28,36 +56,19 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             StdRandom.shuffle(order);
         }
 
-        public boolean hasNext() { return i > 0; }
-        public void remove() { throw new java.lang.UnsupportedOperationException(); }
+        public boolean hasNext() {
+            return i > 0;
+        }
+
+        public void remove() {
+            throw new java.lang.UnsupportedOperationException();
+        }
         public Item next()
         {
-            if (!hasNext()) throw new java.util.NoSuchElementException();
+            if (!hasNext())
+                throw new java.util.NoSuchElementException();
             return s[order[--i]];
         }
-    }
-
-    // is the randomized queue empty?
-    public boolean isEmpty(){return size==0;}
-
-    private void resize(int capacity){
-        Item[] copy = (Item[]) new Object[capacity];
-        for (int i=0;i<size;i++) {
-            copy[i] = s[i];
-            s[i] = copy[i];
-        }
-    }
-
-    // return the number of items on the randomized queue
-    public int size(){return size;}
-
-    // add the item
-    public void enqueue(Item item){
-        if (item == null)
-            throw new NullPointerException();
-        s[size++] = item;
-        if (size == s.length)
-            resize(2*s.length);
     }
 
     // remove and return a random item
