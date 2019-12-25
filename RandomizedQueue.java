@@ -1,5 +1,6 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.lang.UnsupportedOperationException;
 
 import edu.princeton.cs.algs4.StdRandom;
 
@@ -42,13 +43,43 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return size;
     }
 
-    private class RandomizedQueueIterator implements Iterator<Item>
-    {
-        private int i = size;
-        private int[] order;
+    // unit testing (required)
+    public static void main(String[] args) {
+        // something is here
+    }
 
-        public RandomizedQueueIterator()
-        {
+    // remove and return a random item
+    public Item dequeue() {
+        if (size == 0)
+            throw new NoSuchElementException();
+        int r = StdRandom.uniform(size);
+        Item item = s[r];
+        for (int i = r; i < size - 1; i++)
+            s[i] = s[r+1];
+        s[size--] = null;
+        if (size > 0 && size == s.length / 4)
+            resize(s.length/2);
+        return item;
+    }
+
+    // return a random item (but do not remove it)
+    public Item sample() {
+        if (size == 0)
+            throw new NoSuchElementException();
+        int r = StdRandom.uniform(size);
+        return s[r];
+    }
+
+    // return an independent iterator over items in random order
+    public Iterator<Item> iterator() {
+        return new RandomizedQueueIterator();
+    }
+
+    private class RandomizedQueueIterator implements Iterator<Item> {
+        private int i = size;
+        private final int[] order;
+
+        public RandomizedQueueIterator() {
             order = new int[i];
             for (int j = 0; j < i; ++j) {
                 order[j] = j;
@@ -61,42 +92,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public void remove() {
-            throw new java.lang.UnsupportedOperationException();
+            throw new UnsupportedOperationException();
         }
-        public Item next()
-        {
+
+        public Item next() {
             if (!hasNext())
-                throw new java.util.NoSuchElementException();
+                throw new NoSuchElementException();
             return s[order[--i]];
         }
     }
-
-    // remove and return a random item
-    public Item dequeue(){
-        if (size==0)
-            throw new NoSuchElementException();
-        int r = StdRandom.uniform(size);
-        Item item = s[r];
-        for (int i=r;i<size-1;i++)
-            s[i] = s[r+1];
-        s[size--] = null;
-        if(size>0 && size == s.length/4)
-            resize(s.length/2);
-        return item;
-    }
-
-    // return a random item (but do not remove it)
-    public Item sample(){
-        if (size == 0)
-            throw new NoSuchElementException();
-        int r = StdRandom.uniform(size);
-        return s[r];
-    }
-
-    // return an independent iterator over items in random order
-    public Iterator<Item> iterator(){return new RandomizedQueueIterator();}
-
-    // unit testing (required)
-    //public static void main(String[] args){}
 
 }
