@@ -1,6 +1,5 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.lang.UnsupportedOperationException;
 import edu.princeton.cs.algs4.StdRandom;
 
 
@@ -19,9 +18,23 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public void enqueue(Item item) {
         if (item == null)
             throw new IllegalArgumentException();
-        s[size++] = item;
         if (size == s.length)
             resize(2 * s.length);
+        s[size++] = item;
+
+    }
+
+    // remove and return a random item
+    public Item dequeue() {
+        if (size == 0)
+            throw new NoSuchElementException();
+        int r = StdRandom.uniform(size);
+        Item item = s[r];
+        s[r] = s[size - 1];
+        s[size--] = null;
+        if (size > 0 && size == s.length / 4)
+            resize(s.length / 2);
+        return item;
     }
 
     // is the randomized queue empty?
@@ -33,8 +46,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         Item[] copy = (Item[]) new Object[capacity];
         for (int i = 0; i < size; i++) {
             copy[i] = s[i];
-            s[i] = copy[i];
         }
+        s = copy;
     }
 
     // return the number of items on the randomized queue
@@ -47,19 +60,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         // something is here
     }
 
-    // remove and return a random item
-    public Item dequeue() {
-        if (size == 0)
-            throw new NoSuchElementException();
-        int r = StdRandom.uniform(size);
-        Item item = s[r];
-        for (int i = r; i < size - 1; i++)
-            s[i] = s[r+1];
-        s[size--] = null;
-        if (size > 0 && size == s.length / 4)
-            resize(s.length/2);
-        return item;
-    }
 
     // return a random item (but do not remove it)
     public Item sample() {
@@ -91,7 +91,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new java.lang.UnsupportedOperationException();
         }
 
         public Item next() {
